@@ -10,7 +10,7 @@
 // <input type="radio" name="gender" id="gender_Female" value="Female" />
 
 function showValues() 
-    {
+        {
         //console gets cleared on every submissions
         let start_p = document.getElementById('start_p').value;
         let end_p = document.getElementById('end_p').value;
@@ -29,7 +29,7 @@ function showValues()
             disabled = true;
         }
         let myJSON = {start: start_p, end_p: end_p, walking: walk, biking: bike, driving: drive, disability: disabled}
-        alert(myJSON);
+        alert(JSON.stringify(myJSON));
         return myJSON;
     }
 
