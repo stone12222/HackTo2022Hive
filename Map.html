@@ -12,6 +12,8 @@
 <!--   importing the library for the map-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
     
+    <link rel="stylesheet" href="/leaflet-routing-machine-3.2.12/dist/leaflet-routing-machine.css" />
+    
     <script src="receive.js"></script>
     
     <style>
@@ -63,14 +65,13 @@
     
 <!--    user input form-->
    <div id="userForm">
-       <form>
-
-            <img id="icon" src="icons/walk.png" alt="">
-            <img id="icon" src="icons/bike.png" alt="">
-            <img id="icon" src="icons/car.png" alt="">
-            <img id="icon" src="icons/disabled.png" alt="">
+       <form action="">
+            <img id="icon" src="/icons/walk.png" alt="">
+            <img id="icon" src="/icons/bike.png" alt="">
+            <img id="icon" src="/icons/car.png" alt="">
+            <img id="icon" src="/icons/disabled.png" alt="">
             <br>
-            <input id="walk" class="iconSelect" type="radio" name='types' value='walking' style="margin-left: 15px;">
+            <input id="walk" class="iconSelect" type="radio" name='types' value='walking' style="margin-left: 15px;" checked='checked'>
             <input id="bike" class="iconSelect" type="radio" name='types' value='Biking'>
             <input id="drive" class="iconSelect" type="radio" name='types' value='driving'>
             <input id="disabled" class="iconSelect" type="radio" name='types' value='disabled'>
@@ -88,15 +89,60 @@
 <!--    script to import the map-->
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
     
+<!--    routing maching import-->
+    <script src="/leaflet-routing-machine-3.2.12/dist/leaflet-routing-machine.js"></script>
+
+<!--    scripts to display the map    -->
     <script>
         var world_street_map =     
             L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'});
         
         // Initialize the map
-        var map = L.map('map', {
-      layers: [world_street_map]}).setView([8.7832, 34.5085], 3)
+        var map = L.map('map', {layers: [world_street_map]}).setView([43.6532, -79.3832], 14)
+        
+        // icon for markers
+        var greenIcon = L.icon({
+            iconUrl: 'leaf-green.png',
+            shadowUrl: 'leaf-shadow.png',
+
+            iconSize:     [38, 95], // size of the icon
+            iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+        });
+        
+        // markers and popup
+        var markerStart = L.marker([43.648640, -79.380252]).addTo(map);
+        markerStart.bindPopup("Start: King St W").openPopup();
+        var markerEnd = L.marker([43.649111, -79.390785]).addTo(map);
+        markerEnd.bindPopup("End: Richmond St W").openPopup();
+        
+        var popup = L.popup();
+
+        function onMapClick(e) {
+            popup
+                .setLatLng(e.latlng)
+                .setContent(e.latlng.toString())
+                .openOn(map);
+        }
+
+        map.on('click', onMapClick);
+              
+        // Initialize the routing maching
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        L.Routing.control({
+            waypoints: [
+                L.latLng(43.648640, -79.380252),
+                L.latLng(43.649111, -79.390785),
+                L.latLng(43.667502, -79.399813)
+            ],
+            routeWhileDragging: true
+        }).addTo(map);
     </script>
     
 </body>
 </html>
+
