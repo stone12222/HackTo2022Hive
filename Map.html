@@ -8,8 +8,13 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     
     <title>HIVE</title>
+
+    <!-- Roboto font import-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
  
-<!--   importing the library for the map-->
+    <!--   importing the library for the map-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
     
     <link rel="stylesheet" href="leaflet-routing-machine-3.2.12/dist/leaflet-routing-machine.css" />
@@ -17,63 +22,111 @@
     <script src="receive.js"></script>
     
     <style>
+        * {
+            display: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         #map {
             height: 100vh;
             width: 100%;
-/*
-            border-color: red;
-            border-width: 5px;
-            border-style: solid;
-*/
-            display: inline-block;
             z-index: 0;
-            float:left;
+            /* border: 2px solid red; */
+            /* display: inline-block; */
+            /* float:left; */
         }
+
         #userForm {
-/*
-            border-color: blue;
-            border-width: 5px;
-            border-style: solid;
-*/
-            display: inline-block;
+            /* border: b5px solid blue;  */
+            height: 25vh;
+            width: 30vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10%;
             background-color: white;
+            border: solid 4px slateblue;
+            background-color: #eee6f7;
             position: fixed;
-            vertical-align: top;
-            padding-left: 30px;
-            padding-top:15px;
-            padding-bottom: 15px; 
             z-index: 1;
         }
-        #icon{
+
+        /* #icon{
             width: 50px;
+        } */
+
+        /* .iconSelect{
+            margin-right: 50px;  
+        }  */
+
+        /* make all items in iconBox class aligned to the left */
+        .iconBox{
+            width: 80%;
+            height: 1.5rem;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            /* border: 1px solid blue; */
+            justify-content: space-between;
+            font-family: 'Roboto';
         }
-        .iconSelect{
-            margin-right: 38px; 
+
+        input[type="checkbox"]{
+            height: 1.3rem;
+            width: 1.3rem;
+            background-color: slateblue;
+            cursor: pointer;
+            border-radius: 50%;
         }
-        input.btn {
-            margin-top: 7px;
+
+        input[type="text"], input[type="submit"]  {
+            width: 20vh;
+            height: 2rem;
+            /* border: 2px solid darkblue; */
             border-radius: 8px;
-            width: 100px;
-            height: 30px;
-            border: solid green;
+            border: 2px solid darkblue;
+            font-family: 'Roboto'
+        }
+
+        input.btn {
+            -webkit-transition: 0.5s;
+            transition: 0.5s;
+            border-radius: 8px;
+            text-align: center;
+            border: none;
             background-color: transparent;
             font-size: 16px;
             font-weight: 900;
+            background-color: slateblue;
+            color: white;
+            cursor: pointer;
         }
-        input.a{
-            margin-bottom: 7px;
-            margin-top: 7px; 
-            width: 200px;
-            border-radius: 5px;
+        input:focus { 
+        outline: none !important;
+        box-shadow: 0 0 10px #719ECE;
+        }
+
+        .input {
+            -webkit-transition: 0.5s;
+            transition: 0.5s;
+            padding-left: 1rem;
+            border: 2px solid darkblue;
+        }
+        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            font-family: 'Roboto';
+            color: black;
+            opacity: 1; /* Firefox */
         }
     </style>
 </head>
 
 <body style="margin:0">
-   
+
           <!--    user input form-->
        <div id="userForm">
-           <form action="">
+           <!-- <form action="">
             <img id="icon" src="icons/walk.png" alt="">
             <img id="icon" src="icons/bike.png" alt="">
             <img id="icon" src="icons/car.png" alt="">
@@ -83,13 +136,18 @@
             <input id="bike" class="iconSelect" type="radio" name='types' value='Biking'>
             <input id="drive" class="iconSelect" type="radio" name='types' value='driving'>
             <input id="disabled" class="iconSelect" type="radio" name='types' value='disabled'>
+            <br> -->
+            <input id="start_p" value="" type="text" name='bp' class='input' placeholder="From:">
             <br>
-            <input id="start_p" value="" type="text" name='bp' class='a' placeholder="From">
+            <input id="end_p" value="" type="text" name='ep' class='input' placeholder="To:">
             <br>
-            <input id="end_p" value="" type="text" name='ep' class='a' placeholder="To">
-            <br>
-
             <input type="submit" class='btn' onclick="showValues();">
+            <br>
+            <div class="iconBox">
+            <input id="allPoints" class="iconSelect" type="checkbox" name='types' value='allPoints'>
+            <br>
+            <p>See all intersection points</p>
+            </div>
 
         </form>
     </div>
