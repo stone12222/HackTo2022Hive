@@ -7,7 +7,7 @@
   
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     
-    <title>World Population Map</title>
+    <title>HIVE</title>
  
 <!--   importing the library for the map-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
@@ -37,7 +37,7 @@
             width: 50px;
         }
         .iconSelect{
-            margin-right: 30px;
+            margin-right: 38px;
         }
         input.btn {
             margin-top: 7px;
@@ -52,6 +52,7 @@
         input.a{
             margin-bottom: 7px;
             margin-top: 7px;
+            width: 200px;
             border-radius: 5px;
         }
     </style>
@@ -64,12 +65,12 @@
    <div id="userForm">
        <form>
 
-            <!-- <img id="icon" src="/icons/walk.png" alt="">
-            <img id="icon" src="/icons/bike.png" alt="">
-            <img id="icon" src="/icons/car.png" alt="">
-            <img id="icon" src="/icons/disabled.png" alt=""> -->
+            <img id="icon" src="icons/walk.png" alt="">
+            <img id="icon" src="icons/bike.png" alt="">
+            <img id="icon" src="icons/car.png" alt="">
+            <img id="icon" src="icons/disabled.png" alt="">
             <br>
-            <input id="walk" class="iconSelect" type="radio" name='types' value='walking'>
+            <input id="walk" class="iconSelect" type="radio" name='types' value='walking' style="margin-left: 15px;">
             <input id="bike" class="iconSelect" type="radio" name='types' value='Biking'>
             <input id="drive" class="iconSelect" type="radio" name='types' value='driving'>
             <input id="disabled" class="iconSelect" type="radio" name='types' value='disabled'>
