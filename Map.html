@@ -9,18 +9,79 @@
     
     <title>World Population Map</title>
  
+<!--   importing the library for the map-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
+    
     <style>
         #map {
             height: 700px;
             width: 70%;
             background-color: powderblue;
+            border-color: red;
+            border-width: 5px;
+            border-style: solid;
+            display: inline-block;
+        
+        }
+        #userForm {
+            border-color: blue;
+            border-width: 5px;
+            border-style: solid;
+            display: inline-block;
+            vertical-align: top;
+            padding-left: 5%;
+        }
+        #icon{
+            width: 50px;
+        }
+        #iconSelect{
+            margin-right: 30px;
+        }
+        input.btn {
+            margin-top: 7px;
+            border-radius: 8px;
+            width: 100px;
+            height: 30px;
+            border: solid green;
+            background-color: transparent;
+            font-size: 16px;
+            font-weight: 900;
+        }
+        input.a{
+            margin-bottom: 7px;
+            margin-top: 7px;
+            border-radius: 5px;
         }
     </style>
 </head>
 
 <body>
     <div id="map"></div>
+    
+<!--    user input form-->
+   <div id="userForm">
+       <form action="">
+            <img id="icon" src="/icons/walk.png" alt="">
+            <img id="icon" src="/icons/bike.png" alt="">
+            <img id="icon" src="/icons/car.png" alt="">
+            <img id="icon" src="/icons/disabled.png" alt="">
+            <br>
+            <input id="iconSelect" type="radio" name='types' value='walking'>
+            <input id="iconSelect" type="radio" name='types' value='Biking'>
+            <input id="iconSelect" type="radio" name='types' value='driving'>
+            <input id="iconSelect" type="radio" name='types' value='disabled'>
+            <br>
+            <input type="text" name='bp' class='a' placeholder="From">
+            <br>
+            <input type="text" name='ep' class='a' placeholder="To">
+            <br>
+            
+            <input type="submit" class='btn'> <input type="reset" class='btn'>
+
+        </form>
+   </div>
+    
+<!--    script to import the map-->
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
     
     <script>
@@ -30,8 +91,7 @@
         
         // Initialize the map
         var map = L.map('map', {
-      layers: [world_street_map] // Default basemap
-    }).setView([8.7832, 34.5085], 3)
+      layers: [world_street_map]}).setView([8.7832, 34.5085], 3)
     </script>
     
 </body>
