@@ -40,8 +40,8 @@
 
         #userForm {
             /* border: b5px solid blue;  */
-            height: 25vh;
-            width: 30vh;
+            height: 30vh;
+            width: 35vh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -70,7 +70,7 @@
             flex-direction: row;
             align-items: flex-end;
             /* border: 1px solid blue; */
-            justify-content: space-between;
+            justify-content: space-evenly;
             font-family: 'Roboto';
         }
 
@@ -84,8 +84,8 @@
 
         input[type="text"],
         input[type="submit"] {
-            width: 20vh;
-            height: 2rem;
+            width: 25vh;
+            height: 3rem;
             /* border: 2px solid darkblue; */
             border-radius: 8px;
             border: 2px solid darkblue;
@@ -283,57 +283,41 @@
         // displaying the database data on map
         var displayOn=false;
         const dataPointMaker=new Map();
+        var color;
         
         function displayData(){
-            if (displayOn==false){
-                displayOn=true;
+            if (displayOn == false){
+                displayOn = true;
                 for (const key of Interdata.keys()) {
-                    if (Interdata.get(key)[8]==0){
-                        Maker= new L.marker([Interdata.get(key)[2], Interdata.get(key)[3]], {
-                            icon: greenIcon
-                        }).addTo(map).bindPopup("8 Peak Hr Pedestrian Volume: "+Interdata.get(key)[0]+"<br>"+
-                                                "8 Peak Hr Vehicle Volume: "+Interdata.get(key)[1]+'<br>'+
-                                                'Main Street: '+Interdata.get(key)[4]+'<br>'+
-                                                'Side Street 1: '+Interdata.get(key)[5]+'<br>'+
-                                                'Side Street 2: '+Interdata.get(key)[6]+'<br>'+
-                                                'Risk Level: None'
-                                               );
-                    } else if (Interdata.get(key)[8]==1) {
-                        Maker= new L.marker([Interdata.get(key)[2], Interdata.get(key)[3]], {
-                            icon: yellowIcon
-                        }).addTo(map).bindPopup("8 Peak Hr Pedestrian Volume: "+Interdata.get(key)[0]+"<br>"+
-                                                "8 Peak Hr Vehicle Volume: "+Interdata.get(key)[1]+'<br>'+
-                                                'Main Street: '+Interdata.get(key)[4]+'<br>'+
-                                                'Side Street 1: '+Interdata.get(key)[5]+'<br>'+
-                                                'Side Street 2: '+Interdata.get(key)[6]+'<br>'+
-                                                'Risk Level: Low'
-                                               );
-                    } else if (Interdata.get(key)[8]==2){
-                        Maker= new L.marker([Interdata.get(key)[2], Interdata.get(key)[3]], {
-                            icon: orangeIcon
-                        }).addTo(map).bindPopup("8 Peak Hr Pedestrian Volume: "+Interdata.get(key)[0]+"<br>"+
-                                                "8 Peak Hr Vehicle Volume: "+Interdata.get(key)[1]+'<br>'+
-                                                'Main Street: '+Interdata.get(key)[4]+'<br>'+
-                                                'Side Street 1: '+Interdata.get(key)[5]+'<br>'+
-                                                'Side Street 2: '+Interdata.get(key)[6]+'<br>'+
-                                                'Risk Level: Moderate'
-                                               );
-                    } else {
-                        Maker= new L.marker([Interdata.get(key)[2], Interdata.get(key)[3]], {
-                            icon: redIcon
-                        }).addTo(map).bindPopup("8 Peak Hr Pedestrian Volume: "+Interdata.get(key)[0]+"<br>"+
-                                                "8 Peak Hr Vehicle Volume: "+Interdata.get(key)[1]+'<br>'+
-                                                'Main Street: '+Interdata.get(key)[4]+'<br>'+
-                                                'Side Street 1: '+Interdata.get(key)[5]+'<br>'+
-                                                'Side Street 2: '+Interdata.get(key)[6]+'<br>'+
-                                                'Risk Level: High'
-                                               );
+                    switch (Interdata.get(key)[8]) {
+                        case 0:
+                            color=greenIcon;
+                            break;
+                        case 1:
+                            color=yellowIcon;
+                            break;
+                        case 2:
+                            color=orangeIcon;
+                            break;
+                        case 3:
+                            color=redIcon;
+                            break;
+                        default:
+                            color=greenIcon;
                     }
+                Maker = new L.marker([Interdata.get(key)[2], Interdata.get(key)[3]], { icon: color })
+                    .addTo(map).bindPopup("8 Peak Hr Pedestrian Volume: "+Interdata.get(key)[0]+"<br>"+
+                                        "8 Peak Hr Vehicle Volume: "+Interdata.get(key)[1]+'<br>'+
+                                        'Main Street: '+Interdata.get(key)[4]+'<br>'+
+                                        'Side Street 1: '+Interdata.get(key)[5]+'<br>'+
+                                        'Side Street 2: '+Interdata.get(key)[6]+'<br>'+
+                                        'Risk Level: None'
+                );
                     dataPointMaker.set(key,Maker);
-                }
+            }
             } else {
-                displayOn=false;
-                for (const key of dataPointMaker.keys()){
+                displayOn = false;
+                for (const key of dataPointMaker.keys()) {
                     map.removeLayer(dataPointMaker.get(key));
                 }
             }
