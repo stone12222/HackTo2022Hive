@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="leaflet-routing-machine-3.2.12/dist/leaflet-routing-machine.css" />
     
     <script src="receive.js"></script>
+    <script type="text/javascript" src="json_data.js"></script>
     
     <style>
         * {
@@ -122,7 +123,7 @@
     </style>
 </head>
 
-<body style="margin:0">
+<body style="margin:0" onload="load()">
 
           <!--    user input form-->
        <div id="userForm">
@@ -160,9 +161,13 @@
     
 <!--    routing maching import-->
     <script src="leaflet-routing-machine-3.2.12/dist/leaflet-routing-machine.js"></script>
+    
+    <script type="text/javascript" >
+    
+    </script>
 
 <!--    scripts to display the map    -->
-    <script>
+    <script type="text/javascript">
         var world_street_map =     
             L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'});
@@ -203,9 +208,12 @@
         L.marker([43.649111, -79.390785], {icon: yellowIcon}).addTo(map)
         L.marker([43.65118, -79.391601], {icon: redIcon}).addTo(map)
         
+        // import json data from local files
         var myPointsLayer = L.featureGroup();
         var json = []
-        await fetch('./json_data.json').then(response => json = response.json())
+        fetch('test.json').then(response => json = response.json())
+        
+//        const obj = JSON.parse(jsona);
 
 //         var myPointsLayer = L.featureGroup();
 //             for(var key in data2.Sheet1){
@@ -218,7 +226,10 @@
         //     L.marker(43.65118, -79.391601).bindPopup(json.Status).addTo(map);
         // }
 
+        // try to loop the data from json
+//        var mydata = JSON.parse(json.features);
         console.log("hello");
+        console.log(json);
         for (var key in json.features) {
             var latLng = L.latLng(json.features[key].properties.Latitude, json.features[key].properties.Longitude);
             L.marker(latLng).addTo(map);
