@@ -4,24 +4,24 @@
     <meta charset="utf-8">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum- scale=1, user-scalable=no" name=”viewport”>
-  
+
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    
+
     <title>HIVE</title>
 
     <!-- Roboto font import-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
- 
+
     <!--   importing the library for the map-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
     
+    <!--   importing the library for the rounting machine-->
     <link rel="stylesheet" href="leaflet-routing-machine-3.2.12/dist/leaflet-routing-machine.css" />
-    
+
     <script src="receive.js"></script>
-    <script type="text/javascript" src="json_data.js"></script>
-    
+
     <style>
         * {
             display: border-box;
@@ -63,7 +63,7 @@
         }  */
 
         /* make all items in iconBox class aligned to the left */
-        .iconBox{
+        .iconBox {
             width: 80%;
             height: 1.5rem;
             display: flex;
@@ -74,7 +74,7 @@
             font-family: 'Roboto';
         }
 
-        input[type="checkbox"]{
+        input[type="checkbox"] {
             height: 1.3rem;
             width: 1.3rem;
             background-color: slateblue;
@@ -82,7 +82,8 @@
             border-radius: 50%;
         }
 
-        input[type="text"], input[type="submit"]  {
+        input[type="text"],
+        input[type="submit"] {
             width: 20vh;
             height: 2rem;
             /* border: 2px solid darkblue; */
@@ -104,9 +105,10 @@
             color: white;
             cursor: pointer;
         }
-        input:focus { 
-        outline: none !important;
-        box-shadow: 0 0 10px #719ECE;
+
+        input:focus {
+            outline: none !important;
+            box-shadow: 0 0 10px #719ECE;
         }
 
         .input {
@@ -115,19 +117,22 @@
             padding-left: 1rem;
             border: 2px solid darkblue;
         }
-        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+
+        ::placeholder {
+            /* Chrome, Firefox, Opera, Safari 10.1+ */
             font-family: 'Roboto';
             color: black;
-            opacity: 1; /* Firefox */
+            opacity: 1;
+            /* Firefox */
         }
     </style>
 </head>
 
-<body style="margin:0" onload="load()">
+<body style="margin:0">
 
-          <!--    user input form-->
-       <div id="userForm">
-           <!-- <form action="">
+    <!--    user input form-->
+    <div id="userForm">
+        <!-- <form action="">
             <img id="icon" src="icons/walk.png" alt="">
             <img id="icon" src="icons/bike.png" alt="">
             <img id="icon" src="icons/car.png" alt="">
@@ -138,42 +143,45 @@
             <input id="drive" class="iconSelect" type="radio" name='types' value='driving'>
             <input id="disabled" class="iconSelect" type="radio" name='types' value='disabled'>
             <br> -->
-            <input id="start_p" value="" type="text" name='bp' class='input' placeholder="From:">
-            <br>
-            <input id="end_p" value="" type="text" name='ep' class='input' placeholder="To:">
-            <br>
-            <input type="submit" class='btn' onclick="showValues();">
-            <br>
-            <div class="iconBox">
-            <input id="allPoints" class="iconSelect" type="checkbox" name='types' value='allPoints'>
+        <input id="start_p" value="" type="text" name='bp' class='input' placeholder="From:">
+        <br>
+        <input id="end_p" value="" type="text" name='ep' class='input' placeholder="To:">
+        <br>
+        <input type="submit" class='btn' onclick="showValues();">
+        <br>
+        <div class="iconBox">
+            <input id="allPoints" class="iconSelect" type="checkbox" name='types' value='allPoints' checked='checked'>
             <br>
             <p>See all intersection points</p>
-            </div>
+        </div>
 
         </form>
     </div>
-    
+
     <div id="map">
     </div>
-    
-<!--    script to import the map-->
+
+    <!--    script to import the map-->
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
-    
-<!--    routing maching import-->
+
+    <!--    routing maching import-->
     <script src="leaflet-routing-machine-3.2.12/dist/leaflet-routing-machine.js"></script>
-    
-    <script type="text/javascript" >
-    
+
+    <script type="text/javascript">
+
     </script>
 
-<!--    scripts to display the map    -->
+    <!--    scripts to display the map    -->
     <script type="text/javascript">
-        var world_street_map =     
+        var world_street_map =
             L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'});
-        
+                attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+            });
+
         // Initialize the map
-        var map = L.map('map', {layers: [world_street_map]}).setView([43.6532, -79.3832], 14)
+        var map = L.map('map', {
+            layers: [world_street_map]
+        }).setView([43.6532, -79.3832], 14)
         L.control.zoom({
             position: 'bottomright'
         }).addTo(map);
@@ -182,61 +190,40 @@
         var greenIcon = L.icon({
             iconUrl: 'icons/green.png',
 
-            iconSize:     [18, 18], // size of the icon
-            iconAnchor:   [9, 13], // point of the icon which will correspond to marker's location
-            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+            iconSize: [18, 18], // size of the icon
+            iconAnchor: [9, 13], // point of the icon which will correspond to marker's location
+            popupAnchor: [0, -8] // point from which the popup should open relative to the iconAnchor
         });
-        
+
         var yellowIcon = L.icon({
             iconUrl: 'icons/yellow.png',
 
-            iconSize:     [18, 18], // size of the icon
-            iconAnchor:   [9, 13], // point of the icon which will correspond to marker's location
-            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+            iconSize: [18, 18], // size of the icon
+            iconAnchor: [9, 13], // point of the icon which will correspond to marker's location
+            popupAnchor: [0, -8] // point from which the popup should open relative to the iconAnchor
         });
-        
+
         var redIcon = L.icon({
             iconUrl: 'icons/red.png',
 
-            iconSize:     [18, 18], // size of the icon
-            iconAnchor:   [9, 13], // point of the icon which will correspond to marker's location
-            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+            iconSize: [18, 18], // size of the icon
+            iconAnchor: [9, 13], // point of the icon which will correspond to marker's location
+            popupAnchor: [0, -8] // point from which the popup should open relative to the iconAnchor
         });
-        
+
         // markers and popup
-        L.marker([43.648640, -79.380252], {icon: greenIcon}).addTo(map)
-        L.marker([43.649111, -79.390785], {icon: yellowIcon}).addTo(map)
-        L.marker([43.65118, -79.391601], {icon: redIcon}).addTo(map)
-        
-        // import json data from local files
-        var myPointsLayer = L.featureGroup();
-        var json = []
-        fetch('test.json').then(response => json = response.json())
-        
-//        const obj = JSON.parse(jsona);
+        L.marker([43.648640, -79.380252], {
+            icon: greenIcon
+        }).addTo(map)
+        L.marker([43.649111, -79.390785], {
+            icon: yellowIcon
+        }).addTo(map)
+        L.marker([43.65118, -79.391601], {
+            icon: redIcon
+        }).addTo(map)
 
-//         var myPointsLayer = L.featureGroup();
-//             for(var key in data2.Sheet1){
-//             var latLng = L.latLng([data2.Sheet1[key].Latitude, data2.Sheet1[key].Longitude]);
-//             L.marker(latLng).bindPopup(data2.Sheet1[key].Status).addTo(myPointsLayer);
-// }
 
-        // for (var key in json.properties) {
-        //     var latLng = L.latLng(key.Latitude, key.Longitude);
-        //     L.marker(43.65118, -79.391601).bindPopup(json.Status).addTo(map);
-        // }
-
-        // try to loop the data from json
-//        var mydata = JSON.parse(json.features);
-        console.log("hello");
-        console.log(json);
-        for (var key in json.features) {
-            var latLng = L.latLng(json.features[key].properties.Latitude, json.features[key].properties.Longitude);
-            L.marker(latLng).addTo(map);
-            // print hello
-            console.log(key);
-        }
-        
+        // showing the latLng where the user clicked
         var popup = L.popup();
 
         function onMapClick(e) {
@@ -247,7 +234,7 @@
         }
 
         map.on('click', onMapClick);
-              
+
         // Initialize the routing maching
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
@@ -260,7 +247,70 @@
             ],
             routeWhileDragging: true
         }).addTo(map);
+        
+        
+//################################################################################################
+        const Interdata = new Map();
+        
+        // function that read the information from local json file
+        function readTextFile(file, callback) {
+            var rawFile = new XMLHttpRequest();
+            rawFile.overrideMimeType("application/json");
+            rawFile.open("GET", file, true);
+            rawFile.onreadystatechange = function() {
+                if (rawFile.readyState === 4 && rawFile.status == "200") {
+                    callback(rawFile.responseText);
+                }
+            }
+            rawFile.send(null);
+        }
+
+        //usage:
+        readTextFile("test.json", function(text) {
+            var data = JSON.parse(text);
+            for (var e in data[0]) {
+                
+                tempArr=[];
+                for (var value in data[0][e]) {
+                    tempArr.push(data[0][e][value]);
+                }
+                
+                Interdata.set(e,tempArr);
+                if (tempArr[8]==1){
+                    L.marker([tempArr[2], tempArr[3]], {
+                        icon: greenIcon
+                    }).addTo(map).bindPopup("8 Peak Hr Pedestrian Volume: "+tempArr[0]+"<br>"+
+                                            "8 Peak Hr Vehicle Volume: "+tempArr[1]+'<br>'+
+                                            'Main Street: '+tempArr[4]+'<br>'+
+                                            'Side Street 1: '+tempArr[5]+'<br>'+
+                                            'Side Street 2: '+tempArr[6]+'<br>'+
+                                            'Risk Level: Low'
+                                           );
+                } else if (tempArr[8]==2) {
+                    L.marker([tempArr[2], tempArr[3]], {
+                        icon: yellowIcon
+                    }).addTo(map).bindPopup("8 Peak Hr Pedestrian Volume: "+tempArr[0]+"<br>"+
+                                            "8 Peak Hr Vehicle Volume: "+tempArr[1]+'<br>'+
+                                            'Main Street: '+tempArr[4]+'<br>'+
+                                            'Side Street 1: '+tempArr[5]+'<br>'+
+                                            'Side Street 2: '+tempArr[6]+'<br>'+
+                                            'Risk Level: Moderate'
+                                           );
+                } else {
+                    L.marker([tempArr[2], tempArr[3]], {
+                        icon: redIcon
+                    }).addTo(map).bindPopup("8 Peak Hr Pedestrian Volume: "+tempArr[0]+"<br>"+
+                                            "8 Peak Hr Vehicle Volume: "+tempArr[1]+'<br>'+
+                                            'Main Street: '+tempArr[4]+'<br>'+
+                                            'Side Street 1: '+tempArr[5]+'<br>'+
+                                            'Side Street 2: '+tempArr[6]+'<br>'+
+                                            'Risk Level: High'
+                                           );
+                }
+            }
+        });
+        
+        console.log(Interdata);
     </script>
-    
-</body>
-</html>
+
+</body></html>
