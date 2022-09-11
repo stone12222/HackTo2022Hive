@@ -150,7 +150,7 @@
         <input type="submit" class='btn' onclick="showValues();">
         <br>
         <div class="iconBox">
-            <input id="allPoints" class="iconSelect" type="checkbox" name='types' value='allPoints' checked='checked'>
+            <input id="allPoints" class="iconSelect" type="checkbox" name='types' value='allPoints' onclick="displayData()">
             <br>
             <p>See all intersection points</p>
         </div>
@@ -191,7 +191,7 @@
             iconUrl: 'icons/green.png',
 
             iconSize: [18, 18], // size of the icon
-            iconAnchor: [9, 13], // point of the icon which will correspond to marker's location
+            iconAnchor: [9, 0], // point of the icon which will correspond to marker's location
             popupAnchor: [0, -8] // point from which the popup should open relative to the iconAnchor
         });
 
@@ -199,7 +199,15 @@
             iconUrl: 'icons/yellow.png',
 
             iconSize: [18, 18], // size of the icon
-            iconAnchor: [9, 13], // point of the icon which will correspond to marker's location
+            iconAnchor: [9, 0], // point of the icon which will correspond to marker's location
+            popupAnchor: [0, -8] // point from which the popup should open relative to the iconAnchor
+        });
+        
+        var orangeIcon = L.icon({
+            iconUrl: 'icons/orange.png',
+
+            iconSize: [18, 18], // size of the icon
+            iconAnchor: [9, 0], // point of the icon which will correspond to marker's location
             popupAnchor: [0, -8] // point from which the popup should open relative to the iconAnchor
         });
 
@@ -207,21 +215,9 @@
             iconUrl: 'icons/red.png',
 
             iconSize: [18, 18], // size of the icon
-            iconAnchor: [9, 13], // point of the icon which will correspond to marker's location
+            iconAnchor: [9, 0], // point of the icon which will correspond to marker's location
             popupAnchor: [0, -8] // point from which the popup should open relative to the iconAnchor
         });
-
-        // markers and popup
-        L.marker([43.648640, -79.380252], {
-            icon: greenIcon
-        }).addTo(map)
-        L.marker([43.649111, -79.390785], {
-            icon: yellowIcon
-        }).addTo(map)
-        L.marker([43.65118, -79.391601], {
-            icon: redIcon
-        }).addTo(map)
-
 
         // showing the latLng where the user clicked
         var popup = L.popup();
@@ -271,51 +267,77 @@
             var data = data.features.map(function(feature) {
                 return feature.properties;
             });
-            console.log(data);
 
-            // for (var e in data[0]) {
-                
-            //     tempArr=[];
-            //     for (var value in data[0][e]) {
-            //         tempArr.push(data[0][e][value]);
-            //     }
-                
-            //     Interdata.set(e,tempArr);
-            //     if (tempArr[8]==1){
-            //         L.marker([tempArr[2], tempArr[3]], {
-            //             icon: greenIcon
-            //         }).addTo(map).bindPopup("8 Peak Hr Pedestrian Volume: "+tempArr[0]+"<br>"+
-            //                                 "8 Peak Hr Vehicle Volume: "+tempArr[1]+'<br>'+
-            //                                 'Main Street: '+tempArr[4]+'<br>'+
-            //                                 'Side Street 1: '+tempArr[5]+'<br>'+
-            //                                 'Side Street 2: '+tempArr[6]+'<br>'+
-            //                                 'Risk Level: Low'
-            //                                );
-            //     } else if (tempArr[8]==2) {
-            //         L.marker([tempArr[2], tempArr[3]], {
-            //             icon: yellowIcon
-            //         }).addTo(map).bindPopup("8 Peak Hr Pedestrian Volume: "+tempArr[0]+"<br>"+
-            //                                 "8 Peak Hr Vehicle Volume: "+tempArr[1]+'<br>'+
-            //                                 'Main Street: '+tempArr[4]+'<br>'+
-            //                                 'Side Street 1: '+tempArr[5]+'<br>'+
-            //                                 'Side Street 2: '+tempArr[6]+'<br>'+
-            //                                 'Risk Level: Moderate'
-            //                                );
-            //     } else {
-            //         L.marker([tempArr[2], tempArr[3]], {
-            //             icon: redIcon
-            //         }).addTo(map).bindPopup("8 Peak Hr Pedestrian Volume: "+tempArr[0]+"<br>"+
-            //                                 "8 Peak Hr Vehicle Volume: "+tempArr[1]+'<br>'+
-            //                                 'Main Street: '+tempArr[4]+'<br>'+
-            //                                 'Side Street 1: '+tempArr[5]+'<br>'+
-            //                                 'Side Street 2: '+tempArr[6]+'<br>'+
-            //                                 'Risk Level: High'
-            //                                );
-            //     }
-            // }
+            var num=0;
+            for (var e in data) {
+                tempArr=[];
+                console.log(data[e]);
+                for (var value in data[e]) {
+                    tempArr.push(data[e][value]);
+                }
+                Interdata.set(e,tempArr);
+            }
         });
         
-        console.log(Interdata);
+//##############################################################################
+        // displaying the database data on map
+        var displayOn=false;
+        const dataPointMaker=new Map();
+        
+        function displayData(){
+            if (displayOn==false){
+                displayOn=true;
+                for (const key of Interdata.keys()) {
+                    if (Interdata.get(key)[8]==0){
+                        Maker= new L.marker([Interdata.get(key)[2], Interdata.get(key)[3]], {
+                            icon: greenIcon
+                        }).addTo(map).bindPopup("8 Peak Hr Pedestrian Volume: "+Interdata.get(key)[0]+"<br>"+
+                                                "8 Peak Hr Vehicle Volume: "+Interdata.get(key)[1]+'<br>'+
+                                                'Main Street: '+Interdata.get(key)[4]+'<br>'+
+                                                'Side Street 1: '+Interdata.get(key)[5]+'<br>'+
+                                                'Side Street 2: '+Interdata.get(key)[6]+'<br>'+
+                                                'Risk Level: None'
+                                               );
+                    } else if (Interdata.get(key)[8]==1) {
+                        Maker= new L.marker([Interdata.get(key)[2], Interdata.get(key)[3]], {
+                            icon: yellowIcon
+                        }).addTo(map).bindPopup("8 Peak Hr Pedestrian Volume: "+Interdata.get(key)[0]+"<br>"+
+                                                "8 Peak Hr Vehicle Volume: "+Interdata.get(key)[1]+'<br>'+
+                                                'Main Street: '+Interdata.get(key)[4]+'<br>'+
+                                                'Side Street 1: '+Interdata.get(key)[5]+'<br>'+
+                                                'Side Street 2: '+Interdata.get(key)[6]+'<br>'+
+                                                'Risk Level: Low'
+                                               );
+                    } else if (Interdata.get(key)[8]==2){
+                        Maker= new L.marker([Interdata.get(key)[2], Interdata.get(key)[3]], {
+                            icon: orangeIcon
+                        }).addTo(map).bindPopup("8 Peak Hr Pedestrian Volume: "+Interdata.get(key)[0]+"<br>"+
+                                                "8 Peak Hr Vehicle Volume: "+Interdata.get(key)[1]+'<br>'+
+                                                'Main Street: '+Interdata.get(key)[4]+'<br>'+
+                                                'Side Street 1: '+Interdata.get(key)[5]+'<br>'+
+                                                'Side Street 2: '+Interdata.get(key)[6]+'<br>'+
+                                                'Risk Level: Moderate'
+                                               );
+                    } else {
+                        Maker= new L.marker([Interdata.get(key)[2], Interdata.get(key)[3]], {
+                            icon: redIcon
+                        }).addTo(map).bindPopup("8 Peak Hr Pedestrian Volume: "+Interdata.get(key)[0]+"<br>"+
+                                                "8 Peak Hr Vehicle Volume: "+Interdata.get(key)[1]+'<br>'+
+                                                'Main Street: '+Interdata.get(key)[4]+'<br>'+
+                                                'Side Street 1: '+Interdata.get(key)[5]+'<br>'+
+                                                'Side Street 2: '+Interdata.get(key)[6]+'<br>'+
+                                                'Risk Level: High'
+                                               );
+                    }
+                    dataPointMaker.set(key,Maker);
+                }
+            } else {
+                displayOn=false;
+                for (const key of dataPointMaker.keys()){
+                    map.removeLayer(dataPointMaker.get(key));
+                }
+            }
+        }
     </script>
 
 </body></html>
