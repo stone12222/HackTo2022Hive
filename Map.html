@@ -203,6 +203,29 @@
         L.marker([43.649111, -79.390785], {icon: yellowIcon}).addTo(map)
         L.marker([43.65118, -79.391601], {icon: redIcon}).addTo(map)
         
+        var myPointsLayer = L.featureGroup();
+        var json = []
+        await fetch('./json_data.json').then(response => json = response.json())
+
+//         var myPointsLayer = L.featureGroup();
+//             for(var key in data2.Sheet1){
+//             var latLng = L.latLng([data2.Sheet1[key].Latitude, data2.Sheet1[key].Longitude]);
+//             L.marker(latLng).bindPopup(data2.Sheet1[key].Status).addTo(myPointsLayer);
+// }
+
+        // for (var key in json.properties) {
+        //     var latLng = L.latLng(key.Latitude, key.Longitude);
+        //     L.marker(43.65118, -79.391601).bindPopup(json.Status).addTo(map);
+        // }
+
+        console.log("hello");
+        for (var key in json.features) {
+            var latLng = L.latLng(json.features[key].properties.Latitude, json.features[key].properties.Longitude);
+            L.marker(latLng).addTo(map);
+            // print hello
+            console.log(key);
+        }
+        
         var popup = L.popup();
 
         function onMapClick(e) {
