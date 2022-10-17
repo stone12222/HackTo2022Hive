@@ -7,7 +7,7 @@ class RequestsHandler(http.server.SimpleHTTPRequestHandler):
   """
   def do_GET(self):
     if self.path == '/':
-      self.path = 'test.html'
+      self.path = 'index.html'
     return http.server.SimpleHTTPRequestHandler.do_GET(self)
 # Create object of above class
 handler_object = RequestsHandler
