@@ -1,0 +1,102 @@
+* {
+    display: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    height: 100vh;
+    width: 100%;
+    z-index: 0;
+    /* border: 2px solid red; */
+    /* display: inline-block; */
+    /* float:left; */
+}
+
+#userForm {
+    /* border: b5px solid blue;  */
+    height: 30vh;
+    width: 35vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10%;
+    background-color: white;
+    border: solid 4px slateblue;
+    background-color: #eee6f7;
+    position: fixed;
+    z-index: 1;
+}
+
+/* #icon{
+    width: 50px;
+} */
+
+/* .iconSelect{
+    margin-right: 50px;  
+}  */
+
+/* make all items in iconBox class aligned to the left */
+.iconBox {
+    width: 90%;
+    height: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    /* border: 1px solid blue; */
+    justify-content: center;
+    font-family: 'Roboto';
+}
+
+input[type="checkbox"] {
+    height: 1.3rem;
+    width: 1.3rem;
+    background-color: slateblue;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+input[type="text"],
+input[type="submit"] {
+    width: 25vh;
+    height: 2rem;
+    /* border: 2px solid darkblue; */
+    border-radius: 8px;
+    border: 2px solid darkblue;
+    font-family: 'Roboto'
+}
+
+input.btn {
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    border-radius: 8px;
+    text-align: center;
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+    font-weight: 900;
+    background-color: slateblue;
+    color: white;
+    cursor: pointer;
+}
+
+input:focus {
+    outline: none !important;
+    box-shadow: 0 0 10px #719ECE;
+}
+
+.input {
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    padding-left: 1rem;
+    border: 2px solid darkblue;
+}
+
+::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    font-family: 'Roboto';
+    color: black;
+    opacity: 1;
+    /* Firefox */
+}

@@ -4,132 +4,24 @@
     <meta charset="utf-8">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum- scale=1, user-scalable=no" name=”viewport”>
-
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-
+    
     <title>HIVE</title>
 
     <!-- Roboto font import-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-
     <!--   importing the library for the map-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
-    
     <!--   importing the library for the rounting machine-->
     <link rel="stylesheet" href="leaflet-routing-machine-3.2.12/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="index.css" />
 
     <script src="receive.js"></script>
-
-    <style>
-        * {
-            display: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        #map {
-            height: 100vh;
-            width: 100%;
-            z-index: 0;
-            /* border: 2px solid red; */
-            /* display: inline-block; */
-            /* float:left; */
-        }
-
-        #userForm {
-            /* border: b5px solid blue;  */
-            height: 30vh;
-            width: 35vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10%;
-            background-color: white;
-            border: solid 4px slateblue;
-            background-color: #eee6f7;
-            position: fixed;
-            z-index: 1;
-        }
-
-        /* #icon{
-            width: 50px;
-        } */
-
-        /* .iconSelect{
-            margin-right: 50px;  
-        }  */
-
-        /* make all items in iconBox class aligned to the left */
-        .iconBox {
-            width: 90%;
-            height: 1.5rem;
-            display: flex;
-            flex-direction: row;
-            align-items: flex-end;
-            /* border: 1px solid blue; */
-            justify-content: center;
-            font-family: 'Roboto';
-        }
-
-        input[type="checkbox"] {
-            height: 1.3rem;
-            width: 1.3rem;
-            background-color: slateblue;
-            cursor: pointer;
-            border-radius: 50%;
-        }
-
-        input[type="text"],
-        input[type="submit"] {
-            width: 25vh;
-            height: 2rem;
-            /* border: 2px solid darkblue; */
-            border-radius: 8px;
-            border: 2px solid darkblue;
-            font-family: 'Roboto'
-        }
-
-        input.btn {
-            -webkit-transition: 0.5s;
-            transition: 0.5s;
-            border-radius: 8px;
-            text-align: center;
-            border: none;
-            background-color: transparent;
-            font-size: 16px;
-            font-weight: 900;
-            background-color: slateblue;
-            color: white;
-            cursor: pointer;
-        }
-
-        input:focus {
-            outline: none !important;
-            box-shadow: 0 0 10px #719ECE;
-        }
-
-        .input {
-            -webkit-transition: 0.5s;
-            transition: 0.5s;
-            padding-left: 1rem;
-            border: 2px solid darkblue;
-        }
-
-        ::placeholder {
-            /* Chrome, Firefox, Opera, Safari 10.1+ */
-            font-family: 'Roboto';
-            color: black;
-            opacity: 1;
-            /* Firefox */
-        }
-    </style>
 </head>
 
 <body style="margin:0">
-
     <!--    user input form-->
     <div id="userForm">
         <!-- <form action="">
@@ -156,171 +48,13 @@
 
         </form>
     </div>
-
-    <div id="map">
-    </div>
+    <div id="map"></div>
 
     <!--    script to import the map-->
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
-
     <!--    routing maching import-->
     <script src="leaflet-routing-machine-3.2.12/dist/leaflet-routing-machine.js"></script>
+    <script src="index.js"></script>
 
-    <script type="text/javascript">
-
-    </script>
-
-    <!--    scripts to display the map    -->
-    <script type="text/javascript">
-        var world_street_map =
-            L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-                attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
-            });
-
-        // Initialize the map
-        var map = L.map('map', {
-            layers: [world_street_map]
-        }).setView([43.6532, -79.3832], 14)
-        L.control.zoom({
-            position: 'bottomright'
-        }).addTo(map);
-
-        // icon for markers
-        var greenIcon = L.icon({
-            iconUrl: 'icons/green.png',
-
-            iconSize: [18, 18], // size of the icon
-            iconAnchor: [8, 5], // point of the icon which will correspond to marker's location
-            popupAnchor: [0, -8] // point from which the popup should open relative to the iconAnchor
-        });
-
-        var yellowIcon = L.icon({
-            iconUrl: 'icons/yellow.png',
-
-            iconSize: [18, 18], // size of the icon
-            iconAnchor: [8, 5], // point of the icon which will correspond to marker's location
-            popupAnchor: [0, -8] // point from which the popup should open relative to the iconAnchor
-        });
-        
-        var orangeIcon = L.icon({
-            iconUrl: 'icons/orange.png',
-
-            iconSize: [18, 18], // size of the icon
-            iconAnchor: [8, 5], // point of the icon which will correspond to marker's location
-            popupAnchor: [0, -8] // point from which the popup should open relative to the iconAnchor
-        });
-
-        var redIcon = L.icon({
-            iconUrl: 'icons/red.png',
-
-            iconSize: [18, 18], // size of the icon
-            iconAnchor: [8, 5], // point of the icon which will correspond to marker's location
-            popupAnchor: [0, -8] // point from which the popup should open relative to the iconAnchor
-        });
-
-        // showing the latLng where the user clicked
-        var popup = L.popup();
-
-        function onMapClick(e) {
-            popup
-                .setLatLng(e.latlng)
-                .setContent(e.latlng.toString())
-                .openOn(map);
-        }
-
-        map.on('click', onMapClick);
-
-        // Initialize the routing maching
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-
-        L.Routing.control({
-            waypoints: [
-                L.latLng(43.648640, -79.380252),
-                L.latLng(43.649111, -79.390785),
-            ],
-            routeWhileDragging: true
-        }).addTo(map);
-        
-        
-//################################################################################################
-        const Interdata = new Map();
-        
-        // function that read the information from local json file
-        function readTextFile(file, callback) {
-            var rawFile = new XMLHttpRequest();
-            rawFile.overrideMimeType("application/json");
-            rawFile.open("GET", file, true);
-            rawFile.onreadystatechange = function() {
-                if (rawFile.readyState === 4 && rawFile.status == "200") {
-                    callback(rawFile.responseText);
-                }
-            }
-            rawFile.send(null);
-        }
-
-        //usage:
-        readTextFile("json_data.json", function(text) {
-            var data = JSON.parse(text);
-            var data = data.features.map(function(feature) {
-                return feature.properties;
-            });
-
-            var num=0;
-            for (var e in data) {
-                tempArr=[];
-                console.log(data[e]);
-                for (var value in data[e]) {
-                    tempArr.push(data[e][value]);
-                }
-                Interdata.set(e,tempArr);
-            }
-        });
-        
-//##############################################################################
-        // displaying the database data on map
-        var displayOn=false;
-        const dataPointMaker=new Map();
-        var color;
-        
-        function displayData(){
-            if (displayOn == false){
-                displayOn = true;
-                for (const key of Interdata.keys()) {
-                    switch (Interdata.get(key)[8]) {
-                        case 0:
-                            color=greenIcon;
-                            break;
-                        case 1:
-                            color=yellowIcon;
-                            break;
-                        case 2:
-                            color=orangeIcon;
-                            break;
-                        case 3:
-                            color=redIcon;
-                            break;
-                        default:
-                            color=greenIcon;
-                    }
-                Maker = new L.marker([Interdata.get(key)[2], Interdata.get(key)[3]], { icon: color })
-                    .addTo(map).bindPopup("8 Peak Hr Pedestrian Volume: "+Interdata.get(key)[0]+"<br>"+
-                                        "8 Peak Hr Vehicle Volume: "+Interdata.get(key)[1]+'<br>'+
-                                        'Main Street: '+Interdata.get(key)[4]+'<br>'+
-                                        'Side Street 1: '+Interdata.get(key)[5]+'<br>'+
-                                        'Side Street 2: '+Interdata.get(key)[6]+'<br>'+
-                                        'Risk Level: None'
-                );
-                    dataPointMaker.set(key,Maker);
-            }
-            } else {
-                displayOn = false;
-                for (const key of dataPointMaker.keys()) {
-                    map.removeLayer(dataPointMaker.get(key));
-                }
-            }
-        }
-    </script>
-
-</body></html>
+</body>
+</html>
