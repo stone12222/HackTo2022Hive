@@ -7,10 +7,11 @@ var world_street_map =
 // Initialize the map
 var map = L.map('map', {
     layers: [world_street_map]
-}).setView([43.6532, -79.3832], 14)
+}).setView([43.6532, -79.3832], 13);
 L.control.zoom({
     position: 'bottomright'
 }).addTo(map);
+
 
 // icon for markers
 var greenIcon = L.icon({
@@ -148,3 +149,7 @@ function displayData(){
         }
     }
 }
+
+setTimeout(function(){
+    displayData();
+}, 1000);
