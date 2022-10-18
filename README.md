@@ -1,5 +1,5 @@
 # HackTo2022Hive
-Link: toronto-intersection-risk.netlify.app
+Link: [toronto-intersection-risk.netlify.app](toronto-intersection-risk.netlify.app)
 
 - HackTO 2022 submission
 - Map visualization of pedestrian risk levels for intersections in Toronto based on historical data provided by the city.
